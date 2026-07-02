@@ -1,0 +1,30 @@
+HOOK:
+💨 CFD for car aerodynamics takes 8-72 hours per run. I built a surrogate that does it in milliseconds — with uncertainty bounds.
+
+POST:
+Aerodynamic drag directly impacts fuel efficiency and EV range. But each Computational Fluid Dynamics (CFD) simulation of a full vehicle body can take 8–72 hours on an HPC cluster.
+
+In this project, I trained a Gaussian Process Regression (GPR) surrogate on 600 synthetic CFD evaluations of a DrivAer-style sedan body, predicting the drag coefficient (Cd) from 8 geometric parameters.
+
+What makes GPR special for surrogate modeling:
+🔵 Native uncertainty quantification — the model knows when it's uncertain
+🔵 Excellent interpolation in smooth design spaces
+🔵 Bayesian framework — perfectly suited for coupling with optimization
+
+Results:
+✅ R² = 0.997 on unseen test points
+✅ RMSE = 0.00256 Cd units
+✅ Parametric studies in seconds
+
+Key insight: Windshield angle and rear deck angle are the strongest drivers of Cd — validated by automotive aerodynamics literature (SAE 2022-01-0691).
+
+🔗 Full project on GitHub (link in comments)
+
+HASHTAGS:
+#Aerodynamics #CFD #GaussianProcess #MachineLearning #AutomotiveEngineering #DragReduction #Surrogate #BayesianML #OpenToWork
+
+---
+IMAGE SUGGESTION:
+Use `plots/fig1_*.png` (performance chart) as the main LinkedIn image.
+Optionally combine fig1 + fig4 into a 2-panel image using any image editor.
+Keep image width > 1200px for best display in feed.
