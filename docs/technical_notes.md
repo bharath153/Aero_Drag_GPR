@@ -1,23 +1,27 @@
-# Technical Notes — Vehicle Aerodynamic Drag Surrogate — Gaussian Process Regression
+# Technical Notes — Aerodynamic Drag Gaussian-Process Surrogate
 
-## Data Generation Methodology
-The synthetic dataset is constructed using physics-informed equations that capture the dominant engineering relationships in Vehicle Aerodynamics & CFD. While synthetic, the data distributions and feature interactions are calibrated to match published literature values.
+## Purpose
 
-## Model Selection Rationale
-**Gaussian Process Regression (Matérn 5/2 kernel)** was chosen for the following reasons:
-- Appropriate for the dataset size and feature structure
-- Validated performance on similar engineering regression/classification tasks in literature
-- Interpretable outputs compatible with engineering design workflows
+This repository demonstrates uncertainty-aware surrogate modelling for an aerodynamic design objective.
 
-## Hyperparameter Tuning
-Where applicable, hyperparameters were tuned via cross-validated grid or random search. Final parameters are documented in the main script.
+## Data
 
-## Known Limitations
-1. Synthetic data does not capture all real-world noise and sensor artefacts
-2. Model is validated within the training design space (interpolation); extrapolation should be treated with caution
-3. For production deployment, re-training on real experimental data is required
+The design-response dataset is synthetic / physics-inspired. It is intended to mimic a smooth nonlinear aerodynamic response surface for methodology demonstration.
 
-## References
-- Forrester, A.I.J., Sóbester, A., Keane, A.J. (2008). *Engineering Design via Surrogate Modelling: A Practical Guide*. Wiley.
-- Scikit-learn: Pedregosa et al. (2011). Journal of Machine Learning Research, 12, 2825-2830.
-- Domain-specific references are noted inline in the main script.
+## Model
+
+The implementation uses scikit-learn's `GaussianProcessRegressor` with a Matérn-family covariance kernel.
+
+The key advantage of the Gaussian Process is that it returns both:
+- a mean prediction;
+- a predictive uncertainty estimate.
+
+## Evaluation
+
+The repository reports held-out regression metrics and visualization of prediction quality across the generated design space.
+
+## Limitations
+
+The surrogate is not trained on CFD or wind-tunnel data. Reported error therefore quantifies interpolation on the generated objective landscape, not predictive accuracy for a physical vehicle.
+
+A higher-fidelity extension would use CFD-derived design samples, geometric constraints and cross-validation across design regions.
