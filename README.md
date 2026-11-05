@@ -1,117 +1,61 @@
 # Vehicle Aerodynamic Drag Surrogate — Gaussian Process Regression
 
-> **Replacing CFD with GPR to predict drag coefficient with uncertainty quantification**
+> Predicting drag coefficient with uncertainty-aware Gaussian Process regression
 
-[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3-orange.svg)](https://scikit-learn.org/)
-[![Domain](https://img.shields.io/badge/Domain-Vehicle%20Aerodynamics%20&%20CFD-green.svg)]()
-[![Model](https://img.shields.io/badge/Model-Gaussian%20Process%20Regression%20Matérn%205/2%20kernel-purple.svg)]()
+## Overview
 
----
+This project demonstrates surrogate modelling for aerodynamic design exploration.
 
-## 🎯 Project Overview
+Instead of repeatedly evaluating a high-cost CFD model, a Gaussian Process Regressor is trained on a synthetic aerodynamic design dataset and used to predict drag coefficient across the design space.
 
-| Item | Detail |
-|------|--------|
-| **Domain** | Vehicle Aerodynamics & CFD |
-| **ML Model** | Gaussian Process Regression (Matérn 5/2 kernel) |
-| **Key Metric** | R² = 0.997 | RMSE = 0.00256 Cd |
-| **Tech Stack** | Python · scikit-learn · GaussianProcessRegressor · Matérn Kernel · Matplotlib |
+## Model
 
----
+The implementation uses scikit-learn's `GaussianProcessRegressor` with a Matérn 5/2 covariance kernel.
 
-## 🧠 Problem Statement
+Key ideas:
+- nonlinear surrogate modelling;
+- uncertainty-aware prediction;
+- train/test evaluation;
+- design-space visualization;
+- residual and prediction diagnostics.
 
-Replacing CFD with GPR to predict drag coefficient with uncertainty quantification. In engineering design, expensive simulations (FEA, CFD, dyno tests) limit the number of configurations that can be evaluated. Machine learning surrogates and classifiers allow rapid exploration of large design spaces, enabling smarter, faster engineering decisions.
+## Data Scope
 
----
+The aerodynamic dataset is **synthetic / physics-inspired**. It is intended to demonstrate surrogate-modelling methodology and does not replace validated CFD or wind-tunnel data.
 
-## 📁 Repository Structure
+The reported error metrics therefore describe performance on the generated dataset, not generalization to real vehicle aerodynamics.
 
-```
-P03_Aero_Drag_GPR/
-├── src/
-│   └── train_gpr.py          # Main training & evaluation script
-├── plots/
-│   ├── fig1_*.png              # Performance plots
-│   ├── fig2_*.png              # Analysis plots
-│   ├── fig3_*.png
-│   └── fig4_*.png
-├── docs/
-│   └── technical_notes.md      # Extended methodology notes
-├── metrics.json                 # Saved evaluation metrics
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
+## Results
 
----
+Saved metrics include:
+- R²;
+- RMSE in drag coefficient;
+- prediction diagnostics.
 
-## 🚀 Quick Start
+Generated figures are stored under `plots/`, with supporting notes under `docs/`.
 
-### 1. Clone & install
+## Run
+
 ```bash
-git clone https://github.com/YOUR_USERNAME/P03_Aero_Drag_GPR.git
-cd P03_Aero_Drag_GPR
+git clone https://github.com/bharath153/Aero_Drag_GPR.git
+cd Aero_Drag_GPR
 pip install -r requirements.txt
-```
-
-### 2. Run the model
-```bash
 python src/train_gpr.py
 ```
 
-### 3. View results
-All plots are saved to `plots/`. Metrics are saved to `metrics.json`.
+## Repository Structure
 
----
+```text
+Aero_Drag_GPR/
+├── src/
+│   └── train_gpr.py
+├── plots/
+├── docs/
+├── metrics.json
+├── requirements.txt
+└── README.md
+```
 
-## 📊 Results & Visualizations
+## Engineering Interpretation
 
-### Model Performance
-**R² = 0.997 | RMSE = 0.00256 Cd**
-
-| Figure | Description |
-|--------|-------------|
-| `fig1_*` | Predicted vs Actual / Confusion Matrix |
-| `fig2_*` | Feature Importance / Anomaly Scores |
-| `fig3_*` | Learning Curve / ROC Curve |
-| `fig4_*` | Design Space / Parametric Study |
-
----
-
-## 🔬 Methodology
-
-### Data Generation
-Synthetic data is generated using physics-informed equations derived from engineering fundamentals. The data generation pipeline mimics real experimental/simulation data to demonstrate production-grade methodology.
-
-### Model Architecture
-`Gaussian Process Regression (Matérn 5/2 kernel)` — selected based on dataset characteristics (size, feature type, required uncertainty quantification).
-
-### Validation Strategy
-- 80/20 train-test split with fixed random seed
-- 5-fold cross-validation for robust metric estimation
-- Held-out test set never used during hyperparameter tuning
-
----
-
-## 📚 References & Further Reading
-
-- Forrester, A., Sóbester, A., & Keane, A. (2008). *Engineering Design via Surrogate Modelling*. Wiley.
-- Scikit-learn documentation: [https://scikit-learn.org](https://scikit-learn.org)
-- Relevant SAE/IEEE papers cited in `docs/technical_notes.md`
-
----
-
-## 👤 Author
-
-**Bharath Kanaiah Parthiban**  
-M.Sc. Automotive Engineering — Politecnico di Torino (2025)  
-Thesis: *Computational Intelligence for the Design of Electric Machines*  
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/YOUR_PROFILE)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/YOUR_USERNAME)
-
----
-
-*Part of a 10-project portfolio in ML for Automotive Engineering*
+Gaussian Processes are useful in engineering optimization because they provide both a prediction and an uncertainty estimate. This repository is a compact precursor to the Bayesian-optimization workflow in [Aero_BayesOpt](https://github.com/bharath153/Aero_BayesOpt).
